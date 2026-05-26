@@ -22,6 +22,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   # - "dbt_packages"
 
+# flags:
+#   # These flags enable optional features in dbt. For example, the `--defer` flag
+#   # allows you to defer to the state of another dbt project when running models.
+#   # This is useful for incremental development and testing.
+#   fail-fast: false 
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -33,8 +39,8 @@ models:
   eth:
     +materialized: table
     marts:
-      stablecoin_activity_per_day:
-        +post-hook: 
-          - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
-          - GRANT USAGE ON SCHEMA DBT_TRANSFORM TO ROLE TESTER;
-          - "{{ create_latest_version_view() }}"
+      # stablecoin_activity_per_day:
+      #   +post-hook: 
+      #     - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+      #     - GRANT USAGE ON SCHEMA DBT_TRANSFORM TO ROLE TESTER;
+      #     - "{{ create_latest_version_view() }}"

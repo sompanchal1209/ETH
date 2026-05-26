@@ -13,7 +13,7 @@ models:
           - not_null
 
   - name: stablecoin_activity_per_day
-    latest_version: 1
+    # latest_version: 1
     config:
       contract:
         enforced: true
@@ -38,15 +38,15 @@ models:
         data_type: float
         description: ""
 
-    versions:
+    # versions:
     
-      - v: 1
-        deprecation_date: 2026-06-30
-        # Matches what's above -- nothing more needed
+    #   - v: 1
+    #     deprecation_date: 2026-06-30
+    #     # Matches what's above -- nothing more needed
     
-      - v: 2
-        # Removed a column -- this is the breaking change!
-        columns:
-          # This means: use the 'columns' list from above, but exclude country_name
-          - include: all
-            exclude: [symbol, token_address]
+    #   - v: 2
+    #     # Removed a column -- this is the breaking change!
+    #     columns:
+    #       # This means: use the 'columns' list from above, but exclude country_name
+    #       - include: all
+    #         exclude: [symbol, token_address]
