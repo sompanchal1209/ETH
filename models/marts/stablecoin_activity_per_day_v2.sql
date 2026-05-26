@@ -1,8 +1,11 @@
+{{
+  config(
+        grants = {'select': ['TESTER']}
+    )
+}}
 select
 t.date,
-t.token_address,
 s.type,
-s.symbol,
 {# sum(value/1e6) as total_usd_value #}
 {# {{ stablecoin_conversion('value') }} as total_usd_value #}
 {{ conversion('value','s.decimals')}} as total_usd_value
@@ -17,6 +20,4 @@ where s.contract_address is not null
 
 group by 
 t.date,
-t.token_address,
-s.type,
-s.symbol
+s.type

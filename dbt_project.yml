@@ -32,6 +32,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   eth:
     +materialized: table
-    # Config indicated by + and applies to all files under models/example/
-    # example:
-      # +materialized: view
+    marts:
+      stablecoin_activity_per_day:
+        +post-hook: 
+          - GRANT USAGE ON DATABASE DBT TO ROLE TESTER;
+          - GRANT USAGE ON SCHEMA DBT_TRANSFORM TO ROLE TESTER;
+          - "{{ create_latest_version_view() }}"
