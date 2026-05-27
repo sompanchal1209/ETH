@@ -5,7 +5,8 @@ s.type,
 s.symbol,
 {# sum(value/1e6) as total_usd_value #}
 {# {{ stablecoin_conversion('value') }} as total_usd_value #}
-{{ conversion('value','s.decimals')}} as total_usd_value
+{{ conversion('value','s.decimals')}} as total_usd_value,
+count(*) as total_transfers
 
 from {{ ref('stg_token_transfers') }} t
 left join {{ ref('stablecoins') }} s
