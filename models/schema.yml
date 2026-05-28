@@ -11,6 +11,14 @@ models:
         data_tests:
           - unique
           - not_null
+          - relationships:
+              to: ref('stg_token_transfers')
+              field: transaction_hash
+              severity: warn
+              config:
+                store_failures: true
+                store_failures_as: table
+                where: date > current_date - 30
 
   - name: stablecoin_activity_per_day
     # latest_version: 1
@@ -29,6 +37,9 @@ models:
       - name: type
         data_type: varchar
         description: ""
+        data_tests:
+          - accepted_values:
+              values: ['Hybrid', 'Crypto-backed', 'Fiat-backed']
 
       - name: symbol
         data_type: varchar
@@ -37,6 +48,38 @@ models:
       - name: total_usd_value
         data_type: float
         description: ""
+
+  - name: stg_transactions_enriched
+    description: Enriched transaction data with token information
+    columns:
+      - name: value
+        data_tests:
+          - generic_test_positive_value:
+              field: block_number
+
+
+
+
+unit_tests:
+  - name: test_is_valid_transaction_category
+    description: "Test to validate the transaction category based on token symbol and type"
+    model: stg_transactions_enriched
+    overrides:
+      macros:
+        # unit test this model in "full refresh" mode
+        is_incremental: false 
+    given:
+      - input: ref('stg_transactions')
+        rows:
+          - {receipt_contract_address: 'Om'}
+      - input: ref('stg_token_transfers')
+        rows:
+          - {transaction_hash: 'bla'}
+    expect:
+      rows:
+        - {transaction_category: 'contract_creation'}
+
+
 
     # versions:
     
